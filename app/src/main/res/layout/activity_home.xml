@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_light">
+    android:background="@color/premium_cream">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation">
@@ -12,23 +13,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="24dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="serif"
                 android:text="HabiCeb"
-                android:textColor="@color/black"
-                android:textSize="22sp"
+                android:textColor="@color/premium_brown"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Welcome,"
+                android:layout_marginTop="32dp"
+                android:text="Welcome back,"
+                android:textColor="@color/premium_gray_dark"
                 android:textSize="16sp" />
 
             <TextView
@@ -36,86 +39,87 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="SeraPicks"
-                android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textColor="@color/premium_brown"
+                android:textSize="32sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="16dp"
+                android:lineSpacingExtra="4dp"
                 android:text="Effortless outfits &amp; everyday moments\nfinished with the vegan leather bag"
-                android:textAlignment="center"
-                android:textSize="12sp" />
+                android:textColor="@color/premium_gray_dark"
+                android:textSize="13sp" />
 
-            <!-- stagnant image collage (simplified) -->
-            <ImageView
+            <androidx.cardview.widget.CardView
+                style="@style/PremiumCard"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginTop="20dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/profile_img" />
+                android:layout_height="320dp"
+                android:layout_marginTop="32dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/model_bag" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#1A000000" />
+            </androidx.cardview.widget.CardView>
 
             <Button
                 android:id="@+id/btnShopNow"
+                style="@style/PremiumButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="@color/black"
-                android:text="Shop Now"
-                android:textAllCaps="false"
-                android:textColor="@color/white" />
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="32dp"
+                android:paddingStart="40dp"
+                android:paddingEnd="40dp"
+                android:text="Shop the Collection" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/seraprofile_img" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@SeraPicks"
-                    android:textSize="12sp" />
-            </LinearLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-    <!-- Bottom Navigation Footer -->
+    <!-- Floating Capsule Bottom Navigation -->
     <LinearLayout
         android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/black"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/nav_bar_bg"
+        android:elevation="8dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:weightSum="2">
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp">
 
         <ImageButton
             android:id="@+id/navHome"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:src="@android:drawable/ic_menu_today"
-            android:contentDescription="Home" />
+            android:layout_width="100dp"
+            android:layout_height="56dp"
+            android:background="@drawable/nav_item_selected_bg"
+            android:contentDescription="Home"
+            android:src="@drawable/house_icon"
+            app:tint="@color/white" />
 
         <ImageButton
             android:id="@+id/navProfile"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:src="@android:drawable/ic_menu_directions"
-            android:contentDescription="Profile" />
+            android:layout_width="100dp"
+            android:layout_height="56dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Profile"
+            android:src="@drawable/person_icon"
+            app:tint="@color/white" />
     </LinearLayout>
 
 </RelativeLayout>

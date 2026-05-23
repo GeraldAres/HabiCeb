@@ -8,8 +8,11 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.habiceb_ares_finalproject.R
 import database.UserSession
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +20,13 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         val tvHomeUser = findViewById<TextView>(R.id.tvHomeUser)
-        tvHomeUser.text = UserSession.username
+
+        // Reactive data binding
+        lifecycleScope.launch {
+            UserSession.userState.collectLatest { user ->
+                tvHomeUser.text = user.username
+            }
+        }
 
         findViewById<Button>(R.id.btnShopNow).setOnClickListener {
             Toast.makeText(this, "shop option implementing soon", Toast.LENGTH_SHORT).show()

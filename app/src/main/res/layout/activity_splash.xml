@@ -1,24 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/splashRoot"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/premium_cream">
 
-    <!-- Replace @drawable/model_bag with your image -->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/model_bag"
-        android:scaleType="centerCrop" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:text="HabiCeb"
+            android:textColor="@color/premium_brown"
+            android:textSize="48sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:letterSpacing="0.2"
+            android:text="CURATED COMMUNITY"
+            android:textColor="@color/premium_gold"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
-        android:text="HabiCeb\nLuxury, Woven into Every Bag"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textAlignment="center"
-        android:textStyle="bold" />
+        android:layout_marginBottom="40dp"
+        android:text="TAP TO ENTER"
+        android:textColor="@color/premium_gray_dark"
+        android:textSize="10sp"
+        android:letterSpacing="0.1" />
+
 </RelativeLayout>

@@ -1,107 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/habiceb_brown"> <!-- Using your background image -->
+    android:background="@color/premium_cream"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_margin="25dp"
-        android:background="#180801"
         android:orientation="vertical"
-        android:padding="25dp">
+        android:padding="32dp">
 
-        <!-- Logo Section -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="HabiCeb"
-            android:textColor="@color/white"
+            android:layout_marginTop="40dp"
+            android:fontFamily="serif"
+            android:text="Join Us"
+            android:textColor="@color/premium_brown"
             android:textSize="32sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Ready to Carry What the Community Creates?"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginTop="8dp"
+            android:text="Create an account to start curating"
+            android:textColor="@color/premium_gray_dark"
+            android:textSize="14sp" />
 
-        <!-- Input Fields -->
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="32dp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Email"
-            android:textColor="@color/white"
+            android:layout_marginBottom="8dp"
+            android:text="Email Address"
+            android:textColor="@color/premium_brown"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/etRegEmail"
+            style="@style/PremiumEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@johndoe@gmail.com"
-            android:textColorHint="#88FFFFFF"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/white"
-            android:textSize="14sp" />
+            android:hint="johndoe@gmail.com"
+            android:inputType="textEmailAddress" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
             android:text="Password"
-            android:textColor="@color/white"
+            android:textColor="@color/premium_brown"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/etRegPassword"
+            style="@style/PremiumEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/white" />
+            android:hint="Minimum 8 characters"
+            android:inputType="textPassword" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
             android:text="Confirm Password"
-            android:textColor="@color/white"
+            android:textColor="@color/premium_brown"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/etConfirmPassword"
+            style="@style/PremiumEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/white" />
+            android:hint="Repeat password"
+            android:inputType="textPassword" />
 
-        <!-- Create Button -->
         <Button
             android:id="@+id/btnCreateAccount"
+            style="@style/PremiumButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:backgroundTint="@color/white"
-            android:text="Create Account"
-            android:textAllCaps="false"
-            android:textColor="#180801" />
+            android:layout_height="56dp"
+            android:layout_marginTop="40dp"
+            android:text="Create Account" />
 
         <TextView
             android:id="@+id/tvBackToLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:text="Already have an account? Log-in"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:layout_marginTop="24dp"
+            android:padding="8dp"
+            android:text="Already have an account? Sign In"
+            android:textColor="@color/premium_brown"
+            android:textSize="14sp" />
 
     </LinearLayout>
-</RelativeLayout>
+</ScrollView>

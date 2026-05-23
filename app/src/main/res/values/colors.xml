@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Core Palette -->
     <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
+    <color name="black">#1A1A1A</color>
+
+    <!-- Premium Palette (Chic/Minimalist) -->
+    <color name="premium_cream">#FDFBF7</color> <!-- Background -->
+    <color name="premium_brown">#2D1B14</color> <!-- Primary Text / Buttons -->
+    <color name="premium_gold">#C5A371</color>  <!-- Accents -->
+    <color name="premium_gray_light">#F5F5F5</color> <!-- Input backgrounds -->
+    <color name="premium_gray_dark">#757575</color>  <!-- Secondary Text -->
+
+    <!-- Status colors -->
+    <color name="error">#B00020</color>
+
+    <!-- Legacy compatibility (optional) -->
     <color name="gray_light">#F5F5F5</color>
     <color name="habiceb_brown">#180801</color>
 </resources>

@@ -1,62 +1,91 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/habiceb_brown">
+    android:background="@color/premium_cream"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_margin="30dp"
-        android:background="#180801"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="32dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Email"
-            android:textColor="@color/white" />
+            android:layout_marginTop="60dp"
+            android:fontFamily="serif"
+            android:text="Welcome Back"
+            android:textColor="@color/premium_brown"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Sign in to continue your journey"
+            android:textColor="@color/premium_gray_dark"
+            android:textSize="14sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Email Address"
+            android:textColor="@color/premium_brown"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/etEmail"
+            style="@style/PremiumEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="johndoe@gmail.com"
-            android:textColorHint="#888"
-            android:textColor="@color/white" />
+            android:inputType="textEmailAddress" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"
             android:text="Password"
-            android:textColor="@color/white" />
+            android:textColor="@color/premium_brown"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/etPassword"
+            style="@style/PremiumEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:textColor="@color/white" />
+            android:hint="••••••••"
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/btnLogin"
+            style="@style/PremiumButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/white"
-            android:text="Log-in"
-            android:textColor="@color/black" />
+            android:layout_height="56dp"
+            android:layout_marginTop="40dp"
+            android:text="Sign In" />
 
         <TextView
             android:id="@+id/tvCreateNow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="dont have an account? Create now"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:layout_marginTop="24dp"
+            android:padding="8dp"
+            android:text="Don't have an account? Create Now"
+            android:textColor="@color/premium_brown"
+            android:textSize="14sp" />
+
     </LinearLayout>
-</RelativeLayout>
+</ScrollView>

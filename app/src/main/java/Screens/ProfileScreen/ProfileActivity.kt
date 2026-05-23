@@ -37,7 +37,7 @@ class ProfileActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnSaveProfile).setOnClickListener {
             val newName = etNewUsername.text.toString()
             if (newName.isNotEmpty()) {
-                UserSession.username = newName
+                UserSession.updateUsername(newName)
                 tvUsername.text = "@$newName"
                 editSection.visibility = android.view.View.GONE
                 Toast.makeText(this, "Profile Updated", Toast.LENGTH_SHORT).show()
