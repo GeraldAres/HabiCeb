@@ -25,6 +25,7 @@
         <activity android:name="Screens.HomeScreen.HomeActivity" />
         <activity android:name="Screens.ProfileScreen.ProfileActivity" />
         <activity android:name="Screens.registerScreen.RegisterActivity" />
+        <activity android:name="Screens.CartScreen.CartActivity" />
         <activity android:name=".MainActivity" />
 
     </application>
