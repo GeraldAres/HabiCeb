@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="10.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LandingPage.landingController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <Label fx:id="welcomeLabel" text="Welcome, LoginPage.User">
+        <font><Font name="System Bold" size="18.0" /></font>
+    </Label>
+
+    <Separator />
+
+    <Label text="LoginPage.User Information" style="-fx-font-weight: bold;" />
+    <Label fx:id="idLabel" text="LoginPage.User ID: " />
+    <Label fx:id="usernameLabel" text="Username: " />
+    <Label fx:id="passwordCheckLabel" text="Password Status: " textFill="GRAY" />
+
+    <Separator />
+
+    <Label text="Session Information" style="-fx-font-weight: bold;" />
+    <Label fx:id="loginTimeLabel" text="Login Time: " />
+    <Label fx:id="statusLabel" text="Session Status: Active" textFill="GREEN" />
+
+    <Separator />
+
+    <GridPane hgap="10" vgap="10">
+        <Label text="Current Password:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <PasswordField fx:id="currentPasswordField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="New Password:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <PasswordField fx:id="newPasswordField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <HBox spacing="10">
+        <Button text="Change Password"/>
+        <Button text="Logout" onAction="#handleLogout" style="-fx-background-color: #ffcccc;" />
+    </HBox>
+</VBox>

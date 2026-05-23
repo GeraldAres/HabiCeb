@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <?import javafx.geometry.Insets?>
+        <?import javafx.scene.control.*?>
+        <?import javafx.scene.layout.*?>
+        <?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="15.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginPage.loginController">
+<padding>
+    <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+</padding>
+
+<Label text="System Login">
+    <font>
+        <Font name="System Bold" size="18.0" />
+    </font>
+</Label>
+
+<TextField fx:id="usernameField" promptText="Username" />
+<PasswordField fx:id="passwordField" promptText="Password" />
+
+<!-- Required for the registration aspect -->
+<TextField fx:id="fullNameField" promptText="Full Name (for new users)" />
+
+    <Button fx:id="loginButton" text="Login / Register" onAction="#handleLogin"/>
+
+<Label fx:id="statusLabel" textFill="#e10b0b" wrapText="true" />
+</VBox>
