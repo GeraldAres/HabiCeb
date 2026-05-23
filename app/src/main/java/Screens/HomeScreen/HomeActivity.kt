@@ -11,89 +11,48 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.habiceb_ares_finalproject.R
-import database.CartManager
-import database.UserSession
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import models.Product
-import models.ProductRepository
 import Screens.ProfileScreen.ProfileActivity
 import Screens.CartScreen.CartActivity
+import models.Product
+import models.ProductRepository
 import java.util.Locale
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), HomeContract.View {
 
+    private lateinit var presenter: HomeContract.Presenter
     private lateinit var categoryContainer: LinearLayout
     private lateinit var productContainer: LinearLayout
+    private lateinit var tvHomeUser: TextView
     private var selectedCategoryView: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        presenter = HomePresenter(this, lifecycleScope)
+
         categoryContainer = findViewById(R.id.categoryContainer)
         productContainer = findViewById(R.id.productContainer)
-
-        val tvHomeUser = findViewById<TextView>(R.id.tvHomeUser)
-
-        lifecycleScope.launch {
-            UserSession.userState.collectLatest { user ->
-                tvHomeUser.text = user.username
-            }
-        }
+        tvHomeUser = findViewById(R.id.tvHomeUser)
 
         setupCategories()
-        filterProducts("All")
+        presenter.startObservingUser()
+        presenter.loadProducts()
         setupNavigation()
-        
+
         applyFadeInAnimation(findViewById(R.id.headerHome))
     }
 
-    private fun setupCategories() {
-        val inflater = LayoutInflater.from(this)
-        ProductRepository.categories.forEach { category ->
-            val categoryView = inflater.inflate(R.layout.item_category, categoryContainer, false) as TextView
-            categoryView.text = category
-            
-            if (category == "All") {
-                selectCategory(categoryView)
-            }
-
-            categoryView.setOnClickListener {
-                selectCategory(categoryView)
-                filterProducts(category)
-            }
-            categoryContainer.addView(categoryView)
-        }
+    override fun displayUsername(name: String) {
+        tvHomeUser.text = name
     }
 
-    private fun selectCategory(view: TextView) {
-        selectedCategoryView?.isSelected = false
-        view.isSelected = true
-        selectedCategoryView = view
-        
-        // Animation
-        val scaleUp = ScaleAnimation(0.95f, 1.0f, 0.95f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
-        scaleUp.duration = 200
-        view.startAnimation(scaleUp)
-    }
-
-    private fun filterProducts(category: String) {
+    override fun displayProducts(products: List<Product>) {
         productContainer.removeAllViews()
-        val products = if (category == "All") {
-            ProductRepository.products
-        } else {
-            ProductRepository.products.filter { it.category == category }
-        }
-        
-        displayProducts(products)
-    }
-
-    private fun displayProducts(products: List<Product>) {
         val inflater = LayoutInflater.from(this)
         products.forEachIndexed { index, product ->
             val productView = inflater.inflate(R.layout.item_product, productContainer, false)
-            
+
             productView.findViewById<TextView>(R.id.tvBrand).text = product.brand
             productView.findViewById<TextView>(R.id.tvProductName).text = product.name
             productView.findViewById<TextView>(R.id.tvPrice).text = String.format(Locale.getDefault(), "₱%.0f", product.price)
@@ -112,16 +71,57 @@ class HomeActivity : AppCompatActivity() {
                 }
                 applyBounceAnimation(it)
             }
-            
+
             productView.findViewById<ImageButton>(R.id.btnAddToCart).setOnClickListener {
-                CartManager.addToCart(product)
-                Toast.makeText(this, "${product.name} added to cart", Toast.LENGTH_SHORT).show()
+                presenter.onAddToCartClicked(product)
                 applyBounceAnimation(it)
             }
 
             productContainer.addView(productView)
             applyFadeInAnimation(productView, index * 100L)
         }
+    }
+
+    override fun showCartMessage(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun navigateToProfile() {
+        startActivity(Intent(this, ProfileActivity::class.java))
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    }
+
+    override fun navigateToCart() {
+        startActivity(Intent(this, CartActivity::class.java))
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    }
+
+    private fun setupCategories() {
+        val inflater = LayoutInflater.from(this)
+        ProductRepository.categories.forEach { category ->
+            val categoryView = inflater.inflate(R.layout.item_category, categoryContainer, false) as TextView
+            categoryView.text = category
+
+            if (category == "All") {
+                selectCategory(categoryView)
+            }
+
+            categoryView.setOnClickListener {
+                selectCategory(categoryView)
+                presenter.loadProducts(category)
+            }
+            categoryContainer.addView(categoryView)
+        }
+    }
+
+    private fun selectCategory(view: TextView) {
+        selectedCategoryView?.isSelected = false
+        view.isSelected = true
+        selectedCategoryView = view
+
+        val scaleUp = ScaleAnimation(0.95f, 1.0f, 0.95f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
+        scaleUp.duration = 200
+        view.startAnimation(scaleUp)
     }
 
     private fun applyFadeInAnimation(view: View, delay: Long = 0) {
@@ -140,14 +140,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupNavigation() {
-        findViewById<ImageButton>(R.id.navProfile).setOnClickListener {
-            startActivity(Intent(this, ProfileActivity::class.java))
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-        }
-
-        findViewById<ImageButton>(R.id.navCart).setOnClickListener {
-            startActivity(Intent(this, CartActivity::class.java))
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-        }
+        findViewById<ImageButton>(R.id.navProfile).setOnClickListener { presenter.onProfileClicked() }
+        findViewById<ImageButton>(R.id.navCart).setOnClickListener { presenter.onCartClicked() }
     }
 }

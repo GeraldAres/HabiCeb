@@ -7,13 +7,12 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.habiceb_ares_finalproject.R
-import database.CartManager
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import models.Product
+import java.util.Locale
 
-class CartActivity : AppCompatActivity() {
+class CartActivity : AppCompatActivity(), CartContract.View {
 
+    private lateinit var presenter: CartContract.Presenter
     private lateinit var cartItemsContainer: LinearLayout
     private lateinit var tvCartTotal: TextView
     private lateinit var tvEmptyCart: TextView
@@ -22,62 +21,51 @@ class CartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
 
+        presenter = CartPresenter(this, lifecycleScope)
+
         cartItemsContainer = findViewById(R.id.cartItemsContainer)
         tvCartTotal = findViewById(R.id.tvCartTotal)
         tvEmptyCart = findViewById(R.id.tvEmptyCart)
 
-        findViewById<ImageButton>(R.id.btnBackFromCart).setOnClickListener {
-            finish()
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-        }
+        findViewById<ImageButton>(R.id.btnBackFromCart).setOnClickListener { presenter.onBackClicked() }
+        findViewById<Button>(R.id.btnCheckout).setOnClickListener { presenter.onCheckoutClicked() }
 
-        findViewById<Button>(R.id.btnCheckout).setOnClickListener {
-            if (CartManager.cartItems.value.isNotEmpty()) {
-                Toast.makeText(this, "Order placed successfully!", Toast.LENGTH_LONG).show()
-                CartManager.clearCart()
-            } else {
-                Toast.makeText(this, "Your cart is empty", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        // Reactive update for cart items
-        lifecycleScope.launch {
-            CartManager.cartItems.collectLatest { items ->
-                updateCartUI(items)
-            }
-        }
+        presenter.startObservingCart()
     }
 
-    private fun updateCartUI(items: List<Product>) {
+    override fun displayCartItems(items: List<Product>) {
         cartItemsContainer.removeAllViews()
-        
         if (items.isEmpty()) {
             tvEmptyCart.visibility = View.VISIBLE
-            tvCartTotal.text = "₱0.00"
             return
         }
-
         tvEmptyCart.visibility = View.GONE
-        var total = 0.0
-        val inflater = LayoutInflater.from(this)
 
+        val inflater = LayoutInflater.from(this)
         items.forEach { product ->
             val itemView = inflater.inflate(R.layout.item_cart, cartItemsContainer, false)
-            
             itemView.findViewById<TextView>(R.id.tvCartProductName).text = product.name
             itemView.findViewById<TextView>(R.id.tvCartProductBrand).text = product.brand
-            itemView.findViewById<TextView>(R.id.tvCartProductPrice).text = "₱${String.format("%.0f", product.price)}"
-            
+            itemView.findViewById<TextView>(R.id.tvCartProductPrice).text = String.format(Locale.getDefault(), "₱%.0f", product.price)
             itemView.findViewById<ImageView>(R.id.ivCartProduct).setImageResource(product.imageRes)
 
             itemView.findViewById<ImageButton>(R.id.btnRemoveFromCart).setOnClickListener {
-                CartManager.removeFromCart(product)
+                presenter.onRemoveClicked(product)
             }
-
             cartItemsContainer.addView(itemView)
-            total += product.price
         }
+    }
 
-        tvCartTotal.text = "₱${String.format("%.0f", total)}"
+    override fun updateTotalPrice(total: String) {
+        tvCartTotal.text = total
+    }
+
+    override fun showMessage(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun finishView() {
+        finish()
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 }

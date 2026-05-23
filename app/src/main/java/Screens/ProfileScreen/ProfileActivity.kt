@@ -10,12 +10,11 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.habiceb_ares_finalproject.R
-import database.UserSession
-import models.PostRepository
 import models.UserPost
 
-class ProfileActivity : AppCompatActivity() {
+class ProfileActivity : AppCompatActivity(), ProfileContract.View {
 
+    private lateinit var presenter: ProfileContract.Presenter
     private lateinit var tvUsername: TextView
     private lateinit var tvProfileTitle: TextView
     private lateinit var editSection: LinearLayout
@@ -26,66 +25,48 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
+        presenter = ProfilePresenter(this)
+
         tvUsername = findViewById(R.id.tvProfileUser)
         tvProfileTitle = findViewById(R.id.tvProfileTitle)
         editSection = findViewById(R.id.editProfileSection)
         etNewUsername = findViewById(R.id.etNewUsername)
         postGrid = findViewById(R.id.postGrid)
 
-        updateUserUI()
+        findViewById<Button>(R.id.btnLogout).setOnClickListener { presenter.onLogoutClicked() }
+        findViewById<Button>(R.id.btnEditProfile).setOnClickListener { presenter.onEditClicked() }
+        findViewById<Button>(R.id.btnSaveProfile).setOnClickListener { presenter.onSaveClicked(etNewUsername.text.toString()) }
 
-        findViewById<Button>(R.id.btnLogout).setOnClickListener {
-            val intent = Intent(this, SplashActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-        }
+        findViewById<ImageButton>(R.id.navHome).setOnClickListener { presenter.onHomeClicked() }
+        findViewById<ImageButton>(R.id.navCart).setOnClickListener { presenter.onCartClicked() }
 
-        findViewById<Button>(R.id.btnEditProfile).setOnClickListener {
-            editSection.visibility = if (editSection.visibility == View.VISIBLE) View.GONE else View.VISIBLE
-        }
-
-        findViewById<Button>(R.id.btnSaveProfile).setOnClickListener {
-            val newName = etNewUsername.text.toString()
-            if (newName.isNotEmpty()) {
-                UserSession.updateUsername(newName)
-                updateUserUI()
-                editSection.visibility = View.GONE
-                Toast.makeText(this, "Profile Updated", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        setupPostGrid()
-        setupNavigation()
+        presenter.init()
     }
 
-    private fun updateUserUI() {
-        val name = UserSession.username
+    override fun updateUserInfo(name: String) {
         tvUsername.text = name
         tvProfileTitle.text = name
     }
 
-    private fun setupPostGrid() {
+    override fun displayPosts(posts: List<UserPost>) {
+        postGrid.removeAllViews()
         val inflater = LayoutInflater.from(this)
-        val posts = PostRepository.userPosts
-        
+        val screenWidth = resources.displayMetrics.widthPixels
+        val itemSize = screenWidth / 3
+
         posts.forEach { post ->
             val itemView = inflater.inflate(R.layout.item_post_grid, postGrid, false) as ImageView
             itemView.setImageResource(post.imageRes)
-            
-            // Layout params for 1/3 width
-            val screenWidth = resources.displayMetrics.widthPixels
-            val itemSize = screenWidth / 3
             itemView.layoutParams = GridLayout.LayoutParams().apply {
                 width = itemSize
                 height = itemSize
             }
-
-            itemView.setOnClickListener { showPostDetail(post) }
+            itemView.setOnClickListener { presenter.onPostClicked(post) }
             postGrid.addView(itemView)
         }
     }
 
-    private fun showPostDetail(post: UserPost) {
+    override fun showPostDetail(post: UserPost) {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_post_detail, null)
         val dialog = AlertDialog.Builder(this, R.style.Theme_HABICEB_ARES_FINALPROJECT)
             .setView(dialogView)
@@ -99,14 +80,28 @@ class ProfileActivity : AppCompatActivity() {
         dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
-    private fun setupNavigation() {
-        findViewById<ImageButton>(R.id.navHome).setOnClickListener { 
-            finish() 
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-        }
-        findViewById<ImageButton>(R.id.navCart).setOnClickListener {
-            startActivity(Intent(this, Screens.CartScreen.CartActivity::class.java))
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-        }
+    override fun toggleEditSection(show: Boolean) {
+        editSection.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
+    override fun showMessage(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun navigateToHome() {
+        finish()
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    }
+
+    override fun navigateToCart() {
+        startActivity(Intent(this, Screens.CartScreen.CartActivity::class.java))
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    }
+
+    override fun navigateToSplash() {
+        val intent = Intent(this, SplashActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 }

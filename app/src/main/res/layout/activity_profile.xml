@@ -58,7 +58,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/avatar_placeholder"
+                        android:src="@drawable/seraprofile_img"
                         android:scaleType="centerCrop"/>
                 </androidx.cardview.widget.CardView>
 
@@ -178,7 +178,7 @@
             android:layout_height="56dp"
             android:background="@android:color/transparent"
             android:contentDescription="Home"
-            android:src="@android:drawable/ic_menu_today"
+            android:src="@drawable/house_icon"
             app:tint="@color/white" />
 
         <ImageButton
@@ -187,7 +187,7 @@
             android:layout_height="56dp"
             android:background="@android:color/transparent"
             android:contentDescription="Cart"
-            android:src="@android:drawable/ic_menu_save"
+            android:src="@drawable/checkout"
             app:tint="@color/white" />
 
         <ImageButton
@@ -196,7 +196,7 @@
             android:layout_height="56dp"
             android:background="@drawable/nav_item_selected_bg"
             android:contentDescription="Profile"
-            android:src="@android:drawable/ic_menu_myplaces"
+            android:src="@drawable/person_icon"
             app:tint="@color/white" />
     </LinearLayout>
 

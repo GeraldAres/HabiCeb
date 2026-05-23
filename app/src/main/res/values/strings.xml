@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">HABICEB_ARES_FINALPROJECT</string>
+    <string name="app_name">HabiCeb</string>
+    <string name="welcome_message">welcome to habi ceb</string>
+    <string name="invalid_credentials">Invalid Credentials</string>
+    <string name="fields_empty">Fields cannot be empty</string>
+    <string name="registered_success">registered successfully</string>
+    <string name="passwords_mismatch">Passwords do not match</string>
+    <string name="fill_fields">Please fill all fields</string>
+    <string name="profile_updated">Profile Updated</string>
+    <string name="order_placed">Order placed successfully!</string>
+    <string name="cart_empty">Your cart is empty</string>
 </resources>
